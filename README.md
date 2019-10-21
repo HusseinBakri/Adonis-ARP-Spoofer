@@ -1,4 +1,4 @@
-# Adonis-ARP-Spoofer
+# Adonis ARP Python Spoofer
 This tool is an ARP spoofer written in Python for MS Windows, Mac OS and Linux OSs. This is an Ethical Hacker Educational tool used for educational purposes only (please see code of conduct). The tool is named after the mortal lover of the goddess Aphrodite.
 
 The tool is part of an Ethical Hacker Educational toolset taught normally in ethical hacking and computer security degrees/courses (please see code of conduct). 
