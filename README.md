@@ -1,5 +1,5 @@
 # Adonis ARP Python Spoofer
-This tool is an ARP spoofer written in Python for MS Windows, Mac OS and Linux OSs. This is an Ethical Hacker Educational tool used for educational purposes only (please see code of conduct). The tool is named after the mortal lover of the goddess Aphrodite.
+This tool is an ARP spoofer written in Python for MS Windows, Mac OS and Linux OSs. It allows you to launch a Man-In-The-Middle attack (MITM). This is an Ethical Hacker Educational tool used for educational purposes only (please see code of conduct). The tool is named after the mortal lover of the goddess Aphrodite.
 
 The tool is part of an Ethical Hacker Educational toolset taught normally in ethical hacking and computer security degrees/courses (please see code of conduct). 
 
@@ -16,16 +16,16 @@ Tanit Keylogger is part of a toolset of Ethical Hacking tools that I will publis
 
 
 # Code of Conduct
-**Launching this tool against unauthorised and unwilling users is immoral and illegal. As a white hat hacker or security specialist, your job after taking permission, is to discover vulnerabilities in programs, systems and networks (white hat hacking) or help in discovering any gullibility in users (by social engineering). Thus, you can only launch Adonis or any other tool I will publish later in this series only when you are given explicit permission by the company that hires you or you only launch it against your own servers or networks. This tool is written after taking several Ethical Hacking and Security courses. So, in other words, the code (which has a generated executable intentionally detectable by antiviruses) can be found in a form or another in ethical hacking books and courses. I have added enhancements on the tool of course. To reiterate: This is a tool written for the sole purpose of teaching you how ARP spoofing works and it really shows you how much it is easy to write a simple, effective and yet powerful ARP Spoofer in Python. This tool is for educational purposes only and it is not meant to be used in any harmful way. To reiterate, this tool is meant to be a tool to be studied by white hat hackers and security specialists and is not meant to be deployed against users that do not give you explicit permission.**
+**Launching this tool against unauthorised and unwilling users is immoral and illegal. As a white hat hacker or security specialist, your job after taking permission, is to discover vulnerabilities in programs, systems and networks (white hat hacking) or help in discovering any gullibility in users (by social engineering). Thus, you can only launch Adonis or any other tool I might publish later in this hacking series when you are given explicit permission by the company that hires you or you only launch it against your own servers or networks. This tool is written after taking several Ethical Hacking and Security courses. So, in other words, the code (which has a generated executable intentionally detectable by antiviruses) can be found in a form or another in many ethical hacking books and courses. I have added some enhancements on the tool of course. To reiterate: This is a tool written for the sole purpose of teaching you how network a ARP Spoofer work and it really shows you how much it is easy to write a simple, effective and yet powerful ARP Spoofer in Python for the purposes of Man-In-The-Middle attacks. This tool is for educational purposes only and it is not meant to be used in any harmful way. To reiterate, this tool is meant to be a tool to be studied by white hat hackers and security specialists and is not meant to be deployed or used against users that do not give you explicit permission.**
 
 
 # Description
 
 # Requirements
 
-## Irrealistic usage (educational)
+## Usage
 
-## Deployment Usage
+
 
 # Packaging
 You need the pyinstaller. You can install it via pip or pip3 or via apt package manager vel cetera
