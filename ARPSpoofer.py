@@ -85,15 +85,15 @@ def main():
         print('\nYou appear to be on MS Windows machine')
         input("Please enable IP forwarding and then press Enter to continue...")
     elif (platform.system() == 'Linux'):
-        print('\nYou appear to be on Linux machine ...')
+        print('\nYou appear to be on Linux machine. Enabling IP forwarding (sudo privileges needed)...')
         subprocess.run("sudo echo 1 > /proc/sys/net/ipv4/ip_forward", shell=True, check=True)
     elif (platform.system() == 'Darwin'):
         # you are on a Mac OS
-        print('\nYou appear to be on MacOS machine ...')
-        input("Please enable IP forwarding and then press Enter to continue...")
+        print('\nYou appear to be on MacOS machine. Enabling IP forwarding (sudo privileges needed)...')
+	subprocess.run("sudo sysctl -w net.inet.ip.forwarding=1", shell=True, check=True)        
     else:
         print('\nUnknown OS...')
-        input("Please enable IP forwarding and then press Enter to continue...")
+        input("Please enable IP forwarding manually and then press Enter to continue...")
 
     # How the spoof occur?!
     # Loop the sending of packets so that the arp table does not return to normality (we need to sleep a bit so not to flood the network)
