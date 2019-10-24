@@ -22,7 +22,7 @@ Tanit Keylogger is part of a toolset of Ethical Hacking tools that I will publis
 
 
 # Description
-When you successfully fool the victim and the destination by making machinethe man in the middle via the tool presented here, you need to remember to make your machine forward the packets. In other words, you need to enable IP forwarding which is disabled by default. Now I would assume as an attacker you are using a Linux distro such as Ubuntu, Fedora or even better a Kali Linux. Actually I strongly advice you to do that before you launch the attack. 
+When you successfully fool the victim and the destination by making your machine the man in the middle via the tool presented here, you need to remember to make your machine forward all the packets received from the victim. In other words, you need to enable IP forwarding which is disabled by default. Now I would assume as an attacker you are using a Linux distro such as Ubuntu, Fedora or even better a Kali Linux. Actually I strongly advice you to do that before you launch the attack. 
 
 To check whether you have this enabled, you can issue the following command:
 ```
@@ -44,10 +44,24 @@ arp -a
 ```
 
 # Requirements
+You need to install the Python modules: scapy,  netifaces and optparse
 
+```
+sudo pip3 scapy netifaces optparse
+```
 ## Usage
+Run the tool using sudo since it enables IP forwarding for you if you are on Linux machine. Otherwise, if it detects another OS, it then asks you to make sure that you enable IP forwarding and then ask you to continue
 
+```
+sudo python3 ARPSpoofer.py -t 172.18.47.254 -s 224.0.0.252 
+```
 
+or can only specify a victim IP or target IP and Adonis try to find the IP of your gateway or router for you:
+
+```
+sudo python3 ARPSpoofer.py -t 172.18.47.254
+```
+When you close Adonis via a Ctrl-C, it restores back the ARP table for you. I guess this is a classical things all ARP spoofers do.
 
 # Packaging
 You need the pyinstaller. You can install it via pip or pip3 or via apt package manager.
