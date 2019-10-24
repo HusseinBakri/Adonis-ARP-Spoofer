@@ -37,6 +37,12 @@ OR
 ```
 sudo echo 1 > /proc/sys/net/ipv4/ip_forward 
 ```
+
+During the attack always keep an eye on the arp table, to see that the MAC address of the destination host or router have changed to your machine MAC Address. 
+```
+arp -a
+```
+
 # Requirements
 
 ## Usage
