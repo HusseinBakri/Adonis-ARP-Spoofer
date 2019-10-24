@@ -22,13 +22,15 @@ Tanit Keylogger is part of a toolset of Ethical Hacking tools that I will publis
 
 
 # Description
-When you successfully fool the victim and the destination by making your machine the man in the middle via the tool presented here, you need to remember to make your machine forward all the packets received from the victim. In other words, you need to enable IP forwarding which is disabled by default. Now I would assume as an attacker you are using a Linux distro such as Ubuntu, Fedora or even better a Kali Linux. Actually I strongly advice you to do that before you launch the attack. 
+When you successfully fool the victim and the destination by making your machine the man in the middle via the tool presented here, you need to remember to make your machine forward all the packets received from the victim. In other words, you need to enable IP forwarding which is disabled by default. 
 
-To check whether you have this enabled, you can issue the following command:
+Adonis detects your operating system and if it is a Linux or a MacOS, it tries to enable IP forwarding for you. Please do not forget to launch Adonis with ***sudo privileges***. Now I would assume, well usually it is the case that the attacker is using a Linux distro for the attack (or for hacking purposes in general) such as Ubuntu, Fedora or even better more professionally a Kali Linux. I strongly advice you to enable IP forwarding in case Adonis was not successful in enabling this service. This should be done before you launch the attack. The process of enabling IP forwarding might a litle bit tricker in an MS Windows machine with a reboot probably required. 
+
+To check whether you have IP forwarding enabled, you can issue the following command on a Linux OS:
 ```
 cat /proc/sys/net/ipv4/ip_forward
 ```
-If you get a 0 it means it is disabled. To enable the forwarding of packets through your machine (i.e. to make your machine play the role of router/gateway), you need to issue any of following commands:
+If you get a 0, it means it is disabled. To enable the forwarding of packets through your machine (i.e. to make your machine play the role of router/gateway), you need to issue any of following commands:
 ```
 sudo sysctl -w net.ipv4.ip_forward=1
 ```
@@ -38,96 +40,74 @@ OR
 sudo echo 1 > /proc/sys/net/ipv4/ip_forward 
 ```
 
-During the attack always keep an eye on the arp table, to see that the MAC address of the destination host or router have changed to your machine MAC Address. 
+During the attack always keep an eye on ***the arp table***, to see that the MAC address of the destination host or usually the router have changed to your machine MAC Address. 
 ```
 arp -a
 ```
 
+Adonis has the ability to find the gateway IP or router IP for you to automate things further so you have to only provide the victim IP but this is not always guaranteed to work. If you find any problems comment out the function that deals with that in the code.
+
 # Requirements
-You need to install the Python modules: scapy,  netifaces and optparse
+You need to install the Python modules: scapy, netifaces and optparse
 
 ```
 sudo pip3 scapy netifaces optparse
 ```
 ## Usage
-Run the tool using sudo since it enables IP forwarding for you if you are on Linux machine. Otherwise, if it detects another OS, it then asks you to make sure that you enable IP forwarding and then ask you to continue
+Run the tool using ***sudo*** in Linux/MacOS since it enables IP forwarding automatically for you: if you are on Linux/MacOS machine. Otherwise, if it detects another OS like MS Windows, it then asks you to make sure that you enable IP forwarding and then ask you to continue using the tool.
+
+***Usage 1: Victim IP and Gateway/Destination IP are needed***
 
 ```
 sudo python3 ARPSpoofer.py -t 172.18.47.254 -s 224.0.0.252 
 ```
 
-or can only specify a victim IP or target IP and Adonis try to find the IP of your gateway or router for you:
+***Usage 2: Only Victim IP is needed***
+You can only specify only a victim IP or target IP and Adonis try to find the IP of your gateway or router for you which facilitate life I guess. This might not work in some situations so amend the code as needed.
 
 ```
 sudo python3 ARPSpoofer.py -t 172.18.47.254
 ```
-When you close Adonis via a Ctrl-C, it restores back the ARP table for you. I guess this is a classical things all ARP spoofers do.
+When you close Adonis via a Ctrl-C or a keyboard Interrupt from the terminal, it restores back the ARP table for you (by sending necessary ARP packets to return everything back to the way it was). I guess this is a classical thing that all ARP spoofers should do when the attack is finished.
 
-# Packaging
-You need the pyinstaller. You can install it via pip or pip3 or via apt package manager.
+# Packaging Adonis
+You need the Python module pyinstaller. You can install it via pip or pip3 or via apt package manager.
 ```
-pip install pyinstaller
+pip3 install pyinstaller
 ```
 
 A program called pyinstaller is installed in the Python directory. On Windows it would be an executable: pyinstaller.exe
 
-## Notez Bien - Antivirus won't be happy!!!
+## Notez Bien - Antivirus might not be happy!!!
 
-Please turn off ***any antivirus*** on the target system since the executable might be detected and the antivirus will try to delete or quarantine it. Antivirus evasion is addressed in the section titled 'Avoiding antiviruses'.
+Please turn off ***any antivirus***  especially if you are on a Windows since the executable generated **might be detected** and the antivirus will try to delete or quarantine it. Antivirus evasion is addressed in a section titled 'Avoiding antiviruses' in the Tanit Keylogger Repository. For the purpose of this program which is a tool you as an attacker will be using, so there is no need to be concerned by this. But if you are creating a virus or a trojan horse or a keylogger then Antivirus evation is a serious concern. 
 
 ```
 pyinstaller main.py --onefile
 ```
---onefile means  pyinstaller will package all the python files into a single executable
-
-## How to package and run the excutable silently (without showing a terminal to the user)
-If you do not want the user to see a command prompt after the .exe is run. You can add another argument called
---noconsole
-
-```
-pyinstaller main.py --onefile --noconsole
-```
-
-This can work in almost all instances except when your Python code deals with standard input/output/error. 
-
-You have to explicitly deal with standard error and standard input so per example if we have something like (just an example)
-```
-result = subprocess.check_output(command, shell=True)
-```
-
-You need to handle the 'stderr' and 'stdin' by throwing them in the Abyss!
-
-### For Python 3
-```
-result = subprocess.check_output(command, shell=True, stderr=subprocess.DEVNULL, stdin=subprocess.DEVNULL )
-```
-### For Python 2 (you need to import the os module)
-```
-DEVNULL = open(os.devnull, 'wb')
-result = subprocess.check_output(command, shell=True, stderr=DEVNULL, stdin=DEVNULL )
-```
+--onefile means  pyinstaller will package all the python files into a single executable. Your .exe file will be found in the dist folder.
 
 ## Create a Windows .exe executable out of a python project from a Linux OS/Mac OS
-As you know to run a Windows .exe or .msi or anything similar on a Linux OS (even on Mac OS) you need a lovely program called  [wine](https://www.winehq.org/). I would assume you have installed wine on Linux. Go to the official Python Website and download the right Python 2.7.x msi installation file. Navigate on your Linux to the directory of the download directory of this file and then run the following command: (/i is for installing):
+As you know to run a Windows .exe or .msi or anything similar on a Linux OS (even on Mac OS) you need a lovely program called  [wine](https://www.winehq.org/). I would assume you have installed wine on Linux. Go to the official Python Website and download the right Python 2.7.x msi installation file or whatever Python 3.x.x version you need. Navigate on your Linux to the directory of the download directory of this file and then run the following command: (/i is for installing):
 ```
 wine msiexec /i python-2.7.14.msi
 ```
-You will get a normal installation process as you would have on any MS Windows OS, please follow the instruction to install the Python interpreter. All Programs are usually installed in wine in a hidden folder called '.wine' in the Home Folder of the user. So probably your Windows Python will be 
-installed in ~/.wine/drive_c/Python27/ and in there all the cool executable that normally are installed like Python.exe .... Naviagate to this folder and run via wine the Python interpreter invoking pip in order for you to install as above the 'pyinstaller' module.
+You will get a normal installation process as you would have on any MS Windows OS, please follow the instructions to install the Python interpreter. All Programs that are installed in wine are located in a hidden folder called '.wine' in the Home Folder of the user. So probably your Windows Python will be 
+installed per example in ~/.wine/drive_c/Python27/ and in there all the cool executables that normally are installed like Python.exe, pip.exe .... Navigate to this folder and run via wine the Python interpreter invoking pip in order for you to install as above the 'pyinstaller' module.
 
-PS: wine does not access the pip modules of the Linux so this why you need to do this.
+NB: wine does not and can not by default access the pip modules of the Linux OS so this why you need to do this.
 ```
 cd ~/.wine/drive_c/Python27/
 wine python.exe -m pip install pyinstaller
 ```
-After the installation of the module successively terminates, you will find the pyinstalller.exe in the Scripts directory.
-To install pynput (why? as mentioned above, you need to do that as even this module is installed on Linux OS, the Windows Python interpreter needs this)
+After the installation of the module terminates successively, you will find the pyinstalller.exe in the Scripts directory.
+To install pynput (why? as I have mentioned above, you need to do that since even this module is installed on the Linux OS, the Windows Python interpreter can not access OS Python level modules.)
 
 ```
 wine python.exe -m pip install pynput
 ```
 
-You can then package Tanit Keylogger into a single executable:
+You can then package Adonis into a single executable:
 
 ```
 wine /root/.wine/drive_c/Python27/Scripts/pyinstaller.exe main.py --onefile --noconsole
@@ -149,34 +129,10 @@ pyinstaller main.py --onefile --noconsole
 The binary will be stored in the dist folder.
 
 ## Creating a Linux OS executable of Adonis
-The process is exactly similar. The good thing in Linux is that binaries in Linux don't get executed by just making the target user double click them, they need to be run from the terminal after chmod +x makes them executable. This is why Linux rocks, the good thing it is very difficult a experience Linux users (in social enginering, a white hat hacker is hired by many companies these days to test not only the security of networks and systems but also in similar vein to test the gullibility of the company's clerks by the black hat hacker pretending to be from the IT department! 
+The process is exactly similar. The good thing in Linux is that binaries like Adonis in Linux don't get executed by double click from the the user, they need to be run from the terminal after chmod +x makes them executable. 
 
 # Enhancements
-
-
-## Avoiding antiviruses
-I have to mention the fact that the mere act of writing your own Hacking/Security programs with your own way of coding makes these programs unique in a way and thus undetectable and you will know why when I explain the main techniques used by antiviruses. Source Codes and by consequence executable binaries generated out of them, are always detected when they are either too traditional or have been used by many people (so they ended up as a signature in Antiviruses databases). Per instance, the code here has great parts from many sources (a salad of code) and that is intentional.
-
-Now the tricks here are really a race with time for different reasons:
-- 1st technique: Anti-viruses compares your program to a huge database of signatures of other malware. By huge, I mean massive. In lay terms, huge number of signatures (i.e. snippets of logic if you want) sort of database of malware logic.
-- 2nd technique: This technique is used in tandem with the first technique and works as a safe guard if the signature is not found. It compares the behaviour of your program in real-time using a sandbox or virtual environment. The comparision involves sometimes some clever machine and deep learning algorithms. Now of course every antivirus gives this technique some sort of a brand and fancy name but it boils down to the same concepts. In nutshel, the antivisus try to figure out if your program is doing something suspicious like opening a network port or downloading things or taking snapshots or capturing keystrokes, or connecting to a remote host vel cetera...
-
-You sould be worried about the second technique when you want to evade antivirus more than the first one, becuase you have literally at your disposable a trillion methods to make your program quite unique to fool an antivirus to think it is harmless and thus no signature would be matched in this way. That does not mean the second technique could not be defeated.
-
-Some Source Code tricks (which is a big field and an art in itself so this is just a drop from the ocean):
-1. Add useless code before, in-between (if possible) and after the malicious code. Add a lot of padding logic (useless loops, useless mathematical operations etc...)
-2. Play with sleep patterns of your Python scripts (pausing the program and resuming it, then pausing and resuming)
-3. Play with program threading like spawning threads especially useless ones per example some weird mathematical equation calculation  in a seperate thread (this achieves amazing results)
-4. Add variables that are gibberish. There are some tools that transform all your variables to shorter names or gibberish. These types of tools are called 'obfuscation tools' that fool and confuse both humans and antiviruses. Black and grey hat Hackers usually change the code of the program to the point that the padding or usefull behaviour should be far more sizable in your tool than the actual malicous code which should is notmally scattered in different places of your program.
-...
-
-Some Binaries/executable tricks:
-1. Changing the Binaries and adding padding (this require knowledge in reverse enginneering and changing hex codes). Same things you did in the source code but this time on the level of the executable itself.
-2. An easier way: Compressing the binaries or executables (like compressing the .exe) via tools like UPX (https://github.com/upx/upx), a tool that compresses exe files.
-
-Scan your exe via tools and online services that scan your tool across different antiviruses (famous and non famous) WITHOUT submitting the results to antiviruses. One service that is quite handy is called NoDistribute (https://nodistribute.com/).
-
-Please after you are successfull in running your hacking tool evading antiviruses, you are bound by an ethical code of conduct, so you are required morally and legally to submit your tool and code to antiviruses databases.
+* Integrate a scanner into Adonis
 
 # License
 This program is licensed under MIT License - you are free to distribute, change, enhance and include any of the code of this application in your tools. I only expect adequate attribution and citation of this work. The attribution should include the title of the program, the author (me!) and the site or the document where the program is taken from.
