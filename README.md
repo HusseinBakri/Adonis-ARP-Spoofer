@@ -22,7 +22,21 @@ Tanit Keylogger is part of a toolset of Ethical Hacking tools that I will publis
 
 
 # Description
+When you successfully fool the victim and the destination by making machinethe man in the middle via the tool presented here, you need to remember to make your machine forward the packets. In other words, you need to enable IP forwarding which is disabled by default. Now I would assume as an attacker you are using a Linux distro such as Ubuntu, Fedora or even better a Kali Linux. Actually I strongly advice you to do that before you launch the attack. 
 
+To check whether you have this enabled, you can issue the following command:
+```
+cat /proc/sys/net/ipv4/ip_forward
+```
+If you get a 0 it means it is disabled. To enable the forwarding of packets through your machine (i.e. to make your machine play the role of router/gateway), you need to issue any of following commands:
+```
+sudo sysctl -w net.ipv4.ip_forward=1
+```
+OR
+
+```
+sudo echo 1 > /proc/sys/net/ipv4/ip_forward 
+```
 # Requirements
 
 ## Usage
