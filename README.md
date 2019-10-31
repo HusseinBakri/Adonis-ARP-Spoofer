@@ -133,6 +133,11 @@ The process is exactly similar. The good thing in Linux is that binaries like Ad
 
 # Enhancements
 * Integrate a scanner into Adonis
+* Add to the repository an Anti-spoof or a spoof detector.
+
+# Preventing Man-In-The-Middle attack (MITM)
+* The best lay people solution (non tech-savvy) is to always connect to a secure and well-respected VPN (these are marvelous tools) since the traffic will be encrypted anyway so even if an MITM successfully occurs, the traffic will be gibbersih i.e. encrypted and the attack is useless. Some VPNs are hackable of course and they have their own risks but using them is always better security-wise.
+* Anti-spoofing and spoofing detectors are very efficient of stopping MITM attacks. I will add soon to this repository an anti-spoof tool.
 
 # License
 This program is licensed under MIT License - you are free to distribute, change, enhance and include any of the code of this application in your tools. I only expect adequate attribution and citation of this work. The attribution should include the title of the program, the author (me!) and the site or the document where the program is taken from.
